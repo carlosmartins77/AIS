@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = mongoose.model('User');
+//const User = mongoose.model('User');
 const axios = require('axios');
 
 //Model
-require('../framework/dabatase/model/userModel');
+const User = require('../framework/dabatase/model/userModel');
 
 exports.userChangePasswordPersistence = async(user) => {
     try {
