@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 const { gameScheduleGamePersistence } = require('../../use-cases/gameScheduleGamePersistence');
 const { teamCreateTeamPersistence } = require('../../use-cases/teamCreateTeamPersistence');
-const { teamAddMemberPersistente } = require('../../use-cases/teamAddMemberPersistente');
+const { teamAddMemberPersistence } = require('../../use-cases/teamAddMemberPersistence');
 const { teamRemoveMemberPersistente } = require('../../use-cases/teamRemoveMemberPersistente');
 
 const gameInteractor = require('../../use-cases/gameInteractorMongoDB.js');
@@ -45,7 +45,7 @@ router.route('/game/schedule')
     });
 
 
-    router.route('/teams/createteam')
+router.route('/teams/createteam')
     .post(async(req, res) => {
         
         try {
@@ -59,7 +59,7 @@ router.route('/game/schedule')
 
                 const {username} = decoded
                 
-                const team = await teamInteractor.createteam({ teamCreateTeamPersistence }, { name, username });
+                const team = await teamInteractor.createteam({ teamCreateTeamPersistence: teamCreateTeamPersistence }, { name, username });
                 
                 return res.json(team);
             }
@@ -77,7 +77,7 @@ router.route('/game/schedule')
     .post(async(req, res) => {
         
         try {
-            const { idteam } = req.body;
+            const { name } = req.body;
 
             if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
             {
@@ -88,7 +88,7 @@ router.route('/game/schedule')
                 const {username} = decoded
                 
                 // Verificar se o capitao
-                const team = await teamInteractor.addmember({ teamAddMemberPersistente }, { username, idteam });
+                const team = await teamInteractor.addmember({ teamAddMemberPersistence }, { username, name });
                 
                 return res.json(team);
             }

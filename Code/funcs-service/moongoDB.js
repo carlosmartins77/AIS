@@ -5,7 +5,7 @@ mongoose.Promise = global.Promise;
 
 const connectDB = async() => {
     try {
-        const con = await mongoose.connect('mongodb://localhost:56352/MicroServicoFuncs')
+        const con = await mongoose.connect('mongodb://localhost:59629/MicroServicoFuncs')
         console.log(`MongoDB Connected:`);
     } catch (error) {
         console.log(error);

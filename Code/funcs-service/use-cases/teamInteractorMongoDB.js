@@ -1,9 +1,10 @@
 const { TeamEntity } = require("../entities/TeamEntity")
 
-exports.createteam = async({ teamScheduleTeamPersistence }, { name, username}) => {
+exports.createteam = async({ teamCreateTeamPersistence }, { name, username}) => {
     try {
 
-        let date = new Date.now()
+        let date = new Date();
+        date = Date.now();
         const membros = new Array();
 
         const team = new TeamEntity({
@@ -15,7 +16,7 @@ exports.createteam = async({ teamScheduleTeamPersistence }, { name, username}) =
 
         console.log(team)
 
-        const schedulegame = await teamScheduleTeamPersistence(team)
+        const schedulegame = await teamCreateTeamPersistence(team)
         return schedulegame
     } catch (error) {
         console.log(error)
@@ -24,24 +25,25 @@ exports.createteam = async({ teamScheduleTeamPersistence }, { name, username}) =
 }
 
 
-exports.addmember = async({ teamAddMemberPersistente }, { username, idteam}) => {
+exports.addmember = async({ teamAddMemberPersistence }, { username, name}) => {
     try {
 
         // Procurar equipa
         let date = new Date.now()
         const membros = new Array();
-        membros.push(idteam);
+        membros.push(username);
 
         console.log(membros)
 
         const team = new TeamEntity({
-            membros,
-            idteam
+            name,
+            membros
+            
         })
 
         console.log(team)
 
-        const schedulegame = await teamAddMemberPersistente(team)
+        const schedulegame = await teamAddMemberPersistence(team)
         return schedulegame
     } catch (error) {
         console.log(error)

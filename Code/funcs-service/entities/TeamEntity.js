@@ -4,6 +4,6 @@ exports.TeamEntity = class TeamEntity {
         this.username = username;
         this.date = date;
         this.membros = membros;
-        this.teamAddMemberPersistente = idteam;
+        this.idteam = idteam;
     }
 }

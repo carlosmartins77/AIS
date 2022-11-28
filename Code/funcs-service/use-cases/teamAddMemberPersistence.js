@@ -6,18 +6,18 @@ const Game = require('../framework/dabatase/model/teamModel');
 
 
 
-exports.teamAddMemberPersistente = async(game) => {
+exports.teamAddMemberPersistence = async(game) => {
 
-    const { membros, idTeam} = game;
+    const { membros, name} = game;
      try {
 
-        const team = await Game.find({idTeam});
+        const team = await Game.find({name});
 
         const new_array = [...team.membros,...membros]
 
         console.log(new_array)
 
-         const schedule_game = await Game.updateOne({ idTeam }, {
+         const schedule_game = await Game.updateOne({ name }, {
             $set: { "membros": new_array }
         })
  

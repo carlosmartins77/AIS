@@ -6,7 +6,7 @@ const Game = require('../framework/dabatase/model/teamModel');
 
 
 // Login Endpoint
-exports.teamCreateTeamPersistente = async(game) => {
+exports.teamCreateTeamPersistence = async(game) => {
 
    const { name, username, date, membros} = game;
     try {
