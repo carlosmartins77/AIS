@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 //const Game = mongoose.model('Game', );
 const axios = require('axios');
-const Game = require('../framework/dabatase/model/teamModel');
+const Team = require('../framework/dabatase/model/teamModel');
 
 
 // Login Endpoint
-exports.teamCreateTeamPersistence = async(game) => {
+exports.teamCreateTeamPersistence = async(team) => {
 
-   const { name, username, date, membros} = game;
+   const { name, username, date, membros} = team;
     try {
-        const schedule_game = await Game.create({
+        const schedule_game = await Team.create({
             name,
             username,
             date,

@@ -12,7 +12,7 @@ require('../framework/dabatase/model/userModel');
 // Generate acess token
 function generateAcessToken(users) {
     try {
-        return jwt.sign({ id: users._id, username: users.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
+        return jwt.sign({ id: users._id, username: users.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 86400 })
     } catch (error) {
         console.log(error)
     }

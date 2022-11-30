@@ -6,6 +6,7 @@ exports.createteam = async({ teamCreateTeamPersistence }, { name, username}) => 
         let date = new Date();
         date = Date.now();
         const membros = new Array();
+        membros.push(username);
 
         const team = new TeamEntity({
             name,
@@ -25,26 +26,28 @@ exports.createteam = async({ teamCreateTeamPersistence }, { name, username}) => 
 }
 
 
-exports.addmember = async({ teamAddMemberPersistence }, { username, name}) => {
+exports.addmember = async({ teamAddMemberPersistence }, { username, new_member, name}) => {
     try {
 
         // Procurar equipa
-        let date = new Date.now()
+        //console.log(username)
+        let date = new Date()
+        date = Date.now;
         const membros = new Array();
-        membros.push(username);
+        membros.push(new_member);
 
         console.log(membros)
 
         const team = new TeamEntity({
+            username,
             name,
-            membros
-            
+            membros    
         })
 
         console.log(team)
 
-        const schedulegame = await teamAddMemberPersistence(team)
-        return schedulegame
+        const addmember = await teamAddMemberPersistence(team)
+        return addmember
     } catch (error) {
         console.log(error)
         throw error
@@ -52,25 +55,36 @@ exports.addmember = async({ teamAddMemberPersistence }, { username, name}) => {
 }
 
 
-exports.removemember = async({ teamRemoveMemberPersistente }, { username, idteam}) => {
+exports.removemember = async({ teamRemoveMemberPersistente }, { username, remove_member, name}) => {
     try {
 
-        // Procurar equipa
-        let date = new Date.now()
+       // Procurar equipa
+        //console.log(username)
+        let date = new Date()
+        date = Date.now;
         const membros = new Array();
-        membros.push(idteam);
+        membros.push(remove_member);
 
-        console.log(membros)
 
         const team = new TeamEntity({
-            membros,
-            idteam
+            username,
+            name,
+            membros
         })
 
-        console.log(team)
 
         const schedulegame = await teamRemoveMemberPersistente(team)
         return schedulegame
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+exports.listallmembers = async({ teamListAllTeamsPersistence }, {username}) => {
+    try {
+        const listTeams = await teamListAllTeamsPersistence(username)
+        return listTeams
     } catch (error) {
         console.log(error)
         throw error

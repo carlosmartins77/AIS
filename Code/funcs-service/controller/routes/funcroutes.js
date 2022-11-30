@@ -8,6 +8,8 @@ const { gameScheduleGamePersistence } = require('../../use-cases/gameScheduleGam
 const { teamCreateTeamPersistence } = require('../../use-cases/teamCreateTeamPersistence');
 const { teamAddMemberPersistence } = require('../../use-cases/teamAddMemberPersistence');
 const { teamRemoveMemberPersistente } = require('../../use-cases/teamRemoveMemberPersistente');
+const { teamListAllTeamsPersistence } = require('../../use-cases/teamListAllTeamsPersistence');
+
 
 const gameInteractor = require('../../use-cases/gameInteractorMongoDB.js');
 const teamInteractor = require('../../use-cases/teamInteractorMongoDB');
@@ -56,6 +58,7 @@ router.route('/teams/createteam')
                 token = req.headers.authorization.split(" ")[1]
 
                 const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+                
 
                 const {username} = decoded
                 
@@ -77,54 +80,82 @@ router.route('/teams/createteam')
     .post(async(req, res) => {
         
         try {
-            const { name } = req.body;
+            const { new_member, name } = req.body;
 
-            if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
+            if(new_member != null || new_member != undefined || name != null || name != undefined )
             {
-                token = req.headers.authorization.split(" ")[1]
-
-                const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-
-                const {username} = decoded
-                
-                // Verificar se o capitao
-                const team = await teamInteractor.addmember({ teamAddMemberPersistence }, { username, name });
-                
-                return res.json(team);
+                if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
+                {
+                    token = req.headers.authorization.split(" ")[1]
+                    
+                    const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+                    const {username}= decoded
+                    
+                    // Verificar se o capitao
+                    const team = await teamInteractor.addmember({ teamAddMemberPersistence }, { username, new_member, name });
+                    
+                    return res.json(team);
+                }
             }
 
-            return error
+            return res.json({"Error": "name or new_member can't be null"})
 
         } catch (error) {
-            return error
+            return res.json({"Error": error})
         }
 
     });
 
-    router.route('/teams/removemember')
+router.route('/teams/removemember')
     .post(async(req, res) => {
         
         try {
-            const { idteam } = req.body;
+            const { remove_member, name } = req.body;
 
+            if(remove_member != null || remove_member != undefined )
+            {
+                
+                if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
+                {
+                    token = req.headers.authorization.split(" ")[1]
+                    const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+                    const {username}= decoded
+                    
+                    
+                    // Verificar se o capitao
+                    const team = await teamInteractor.removemember({ teamRemoveMemberPersistente }, { username, remove_member, name });
+                    
+                    return res.json(team);
+                }
+            }
+
+            return res.json({"Error": "name or remove_member can't be null"})
+
+        } catch (error) {
+            return res.json({"Error": error})
+        }
+
+    });
+
+router.route('/teams/listallteams')
+    .get(async(req, res) => {
+        
+        try {
+          
             if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
             {
                 token = req.headers.authorization.split(" ")[1]
-
-                const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-
+                const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
                 const {username} = decoded
-                
-                // Verificar se o capitao
-                const team = await teamInteractor.removemember({ teamRemoveMemberPersistente }, { username, idteam });
-                
-                return res.json(team);
-            }
 
-            return error
+                // Verificar se o capitao
+                const team = await teamInteractor.listallmembers({ teamListAllTeamsPersistence }, { username });
+              
+                return res.json(team);
+          }
 
         } catch (error) {
-            return error
+            return res.json({"Error": error})
         }
 
     });
