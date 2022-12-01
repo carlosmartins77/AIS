@@ -8,7 +8,7 @@ const Team = require('../framework/dabatase/model/teamModel');
 exports.teamListAllTeamsPersistence = async(username) => {
 
      try {
-        const team = await Team.find({membros: [username]});
+        const team = await Team.find( { membros : username });
         console.log(team)
 
         return ({ status: "200", message: team})

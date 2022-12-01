@@ -30,9 +30,6 @@ exports.addmember = async({ teamAddMemberPersistence }, { username, new_member, 
     try {
 
         // Procurar equipa
-        //console.log(username)
-        let date = new Date()
-        date = Date.now;
         const membros = new Array();
         membros.push(new_member);
 
@@ -41,7 +38,7 @@ exports.addmember = async({ teamAddMemberPersistence }, { username, new_member, 
         const team = new TeamEntity({
             username,
             name,
-            membros    
+            membros
         })
 
         console.log(team)
@@ -90,4 +87,3 @@ exports.listallmembers = async({ teamListAllTeamsPersistence }, {username}) => {
         throw error
     }
 }
-

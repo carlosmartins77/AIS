@@ -10,11 +10,14 @@ exports.gameScheduleGamePersistence = async(game) => {
 
    const { username, idTeam1, idTeam2, gameDateTime, status } = game;
     try {
+
+        const date = gameDateTime.split("/")
+        let date2= new Date(Number.parseInt(date[2]),Number.parseInt(date[1]),Number.parseInt(date[0]));
         const schedule_game = await Game.create({
             username,
             idTeam1,
             idTeam2,
-            gameDateTime,
+            gameDateTime: date2,
             status
         })
 

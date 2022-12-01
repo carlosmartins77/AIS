@@ -19,3 +19,14 @@ exports.schedulegame = async({ gameScheduleGamePersistence }, { username, idTeam
         throw error
     }
 }
+
+
+exports.listallgames = async({ gamesListAllGamesPersistence }, {username}) => {
+    try {
+        const listGames = await gamesListAllGamesPersistence(username)
+        return listGames
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}

@@ -10,6 +10,7 @@ const { teamAddMemberPersistence } = require('../../use-cases/teamAddMemberPersi
 const { teamRemoveMemberPersistente } = require('../../use-cases/teamRemoveMemberPersistente');
 const { teamListAllTeamsPersistence } = require('../../use-cases/teamListAllTeamsPersistence');
 
+const { gamesListAllGamesPersistence } = require('../../use-cases/gamesListAllGamesPersistence');
 
 const gameInteractor = require('../../use-cases/gameInteractorMongoDB.js');
 const teamInteractor = require('../../use-cases/teamInteractorMongoDB');
@@ -23,17 +24,17 @@ router.route('/game/schedule')
         
         try {
             const { idTeam1, idTeam2, gameDateTime } = req.body;
-            //console.log(idTeam1);
+            console.log(idTeam1);
 
             if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
             {
                 token = req.headers.authorization.split(" ")[1]
 
                 const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-                //console.log(decoded)
+                console.log(decoded)
                 const {username} = decoded; 
                 
-                const scheduleGame = await gameInteractor.schedulegame({ gameScheduleGamePersistence }, { username, idTeam1, idTeam2, gameDateTime, status: "Waiting approval"});
+                const scheduleGame = await gameInteractor.schedulegame({ gameScheduleGamePersistence }, { username, idTeam1, idTeam2, gameDateTime, status: true});
                 
                 return res.json(scheduleGame);
             }
@@ -141,13 +142,12 @@ router.route('/teams/listallteams')
     .get(async(req, res) => {
         
         try {
-          
             if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
             {
                 token = req.headers.authorization.split(" ")[1]
                 const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
                 const {username} = decoded
-
+                console.clear()
                 // Verificar se o capitao
                 const team = await teamInteractor.listallmembers({ teamListAllTeamsPersistence }, { username });
               
@@ -160,7 +160,26 @@ router.route('/teams/listallteams')
 
     });
 
-    
+    router.route('/games/listallgames')
+    .get(async(req, res) => {
+        
+        try {
+            if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
+            {
+                token = req.headers.authorization.split(" ")[1]
+                const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+                const {username} = decoded
+                const team = await gameInteractor.listallgames({ gamesListAllGamesPersistence }, { username });
+              
+                return res.json(team);
+          }
+
+        } catch (error) {
+            return res.json({"Error": error})
+        }
+
+    });
+
 
 // Other Routes
 

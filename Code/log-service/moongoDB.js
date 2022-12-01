@@ -4,7 +4,7 @@ const mongoose = require("mongoose")
 
 const connectDB = async() => {
     try {
-        const con = await mongoose.connect('mongodb://localhost:65251/MicroServicoLog')
+        const con = await mongoose.connect('mongodb://localhost:27017/MicroServicoLog')
 
         console.log(`MongoDB Connected:`);
     } catch (error) {
