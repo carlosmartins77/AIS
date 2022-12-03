@@ -11,11 +11,17 @@ const { teamRemoveMemberPersistente } = require('../../use-cases/teamRemoveMembe
 const { teamListAllTeamsPersistence } = require('../../use-cases/teamListAllTeamsPersistence');
 
 const { gamesListAllGamesPersistence } = require('../../use-cases/gamesListAllGamesPersistence');
+
 const { gameAcceptGamePersistence } = require('../../use-cases/gameAcceptGamePersistence');
+
+const { friendAddFriendPersistence } = require('../../use-cases/friendAddFriendPersistence');
+
+const { friendRemoveFriendPersistence } = require('../../use-cases/friendRemoveFriendPersistence');
 
 
 const gameInteractor = require('../../use-cases/gameInteractorMongoDB.js');
 const teamInteractor = require('../../use-cases/teamInteractorMongoDB');
+const friendInteractor = require('../../use-cases/friendInteractorMongoDB');
 
 
 app.use('/', router);
@@ -96,6 +102,69 @@ router.route('/teams/createteam')
                     
                     // Verificar se o capitao
                     const team = await teamInteractor.addmember({ teamAddMemberPersistence }, { username, new_member, name });
+                    
+                    return res.json(team);
+                }
+            }
+
+            return res.json({"Error": "name or new_member can't be null"})
+
+        } catch (error) {
+            return res.json({"Error": error})
+        }
+
+    });
+
+
+
+    router.route('/friend/addfriend')
+    .post(async(req, res) => {
+        
+        try {
+            const { friend_username } = req.body;
+
+            if(friend_username != null || friend_username != undefined )
+            {
+                if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
+                {
+                    token = req.headers.authorization.split(" ")[1]
+                    
+                    const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+                    const {username}= decoded
+                    console.log(username)
+                    
+                    // Verificar se o capitao
+                    const team = await friendInteractor.addfriend({ friendAddFriendPersistence }, { username, friend_username });
+                    
+                    return res.json(team);
+                }
+            }
+
+            return res.json({"Error": "name or new_member can't be null"})
+
+        } catch (error) {
+            return res.json({"Error": error})
+        }
+
+    });
+
+    router.route('/friend/removefriend')
+    .post(async(req, res) => {
+        
+        try {
+            const { friend_username } = req.body;
+
+            if(friend_username != null || friend_username != undefined )
+            {
+                if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
+                {
+                    token = req.headers.authorization.split(" ")[1]
+                    
+                    const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+                    const {username}= decoded
+                    
+                    // Verificar se o capitao
+                    const team = await friendInteractor.removefriend({ friendRemoveFriendPersistence }, { username, friend_username });
                     
                     return res.json(team);
                 }
