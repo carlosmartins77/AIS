@@ -21,9 +21,13 @@ const { friendRemoveFriendPersistence } = require('../../use-cases/friendRemoveF
 const { friendListFriendPersistence } = require('../../use-cases/friendListFriendPersistence');
 
 
+const { pubCreatePubPersistence } = require('../../use-cases/pubCreatePubPersistence');
+
+
 const gameInteractor = require('../../use-cases/gameInteractorMongoDB.js');
 const teamInteractor = require('../../use-cases/teamInteractorMongoDB');
 const friendInteractor = require('../../use-cases/friendInteractorMongoDB');
+const pubInteractor = require('../../use-cases/pubInteractorMongoDB');
 
 
 app.use('/', router);
@@ -302,6 +306,29 @@ router.route('/teams/listallteams')
         }
 
     });
+
+    router.route('/pub/createpub')
+    .post(async(req, res) => {
+        const { content } = req.body;
+
+        try {
+            if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
+            {
+                token = req.headers.authorization.split(" ")[1]
+                const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+                const {username} = decoded
+
+                const pub = await pubInteractor.createpub({ pubCreatePubPersistence }, {username, content});
+                
+                return res.json(pub);
+          }
+
+        } catch (error) {
+            return res.json({"Error": error})
+        }
+
+    });
+
 
 
 // Other Routes
