@@ -11,6 +11,8 @@ const { teamRemoveMemberPersistente } = require('../../use-cases/teamRemoveMembe
 const { teamListAllTeamsPersistence } = require('../../use-cases/teamListAllTeamsPersistence');
 
 const { gamesListAllGamesPersistence } = require('../../use-cases/gamesListAllGamesPersistence');
+const { gameAcceptGamePersistence } = require('../../use-cases/gameAcceptGamePersistence');
+
 
 const gameInteractor = require('../../use-cases/gameInteractorMongoDB.js');
 const teamInteractor = require('../../use-cases/teamInteractorMongoDB');
@@ -34,7 +36,7 @@ router.route('/game/schedule')
                 console.log(decoded)
                 const {username} = decoded; 
                 
-                const scheduleGame = await gameInteractor.schedulegame({ gameScheduleGamePersistence }, { username, idTeam1, idTeam2, gameDateTime, status: true});
+                const scheduleGame = await gameInteractor.schedulegame({ gameScheduleGamePersistence }, { username, idTeam1, idTeam2, gameDateTime, status: "Pending"});
                 
                 return res.json(scheduleGame);
             }
@@ -172,6 +174,30 @@ router.route('/teams/listallteams')
                 const team = await gameInteractor.listallgames({ gamesListAllGamesPersistence }, { username });
               
                 return res.json(team);
+          }
+
+        } catch (error) {
+            return res.json({"Error": error})
+        }
+
+    });
+
+    router.route('/games/acceptgame')
+    .post(async(req, res) => {
+        const { idGame } = req.body;
+
+        try {
+            if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
+            {
+                token = req.headers.authorization.split(" ")[1]
+                const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+                const {username} = decoded
+                const game = {idGame: idGame, username: username}
+
+
+                const game2 = await gameInteractor.acceptgame({ gameAcceptGamePersistence }, {game});
+                
+                return res.json(game2);
           }
 
         } catch (error) {

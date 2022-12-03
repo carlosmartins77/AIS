@@ -19,7 +19,7 @@ exports.gamesListAllGamesPersistence = async(username) => {
             all_teams.push(x.name)} )
         console.log("F", all_teams)
         
-        const game = await Game.find( { $or: [ { idTeam1: { $in : all_teams }, status: "true"}, { idTeam2: { $in : all_teams }, status: "true"} ] } ); // ou in apenas
+        const game = await Game.find( { $or: [ { idTeam1: { $in : all_teams }}, { idTeam2: { $in : all_teams }} ] } ); // ou in apenas
 
         return ({ status: "200", message: game})
         

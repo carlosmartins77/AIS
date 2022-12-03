@@ -30,3 +30,15 @@ exports.listallgames = async({ gamesListAllGamesPersistence }, {username}) => {
         throw error
     }
 }
+
+exports.acceptgame = async({ gameAcceptGamePersistence }, {game}) => {
+    try {
+        console.log(game)
+        const acceptGame = await gameAcceptGamePersistence(game)
+        return acceptGame
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
