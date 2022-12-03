@@ -18,6 +18,8 @@ const { friendAddFriendPersistence } = require('../../use-cases/friendAddFriendP
 
 const { friendRemoveFriendPersistence } = require('../../use-cases/friendRemoveFriendPersistence');
 
+const { friendListFriendPersistence } = require('../../use-cases/friendListFriendPersistence');
+
 
 const gameInteractor = require('../../use-cases/gameInteractorMongoDB.js');
 const teamInteractor = require('../../use-cases/teamInteractorMongoDB');
@@ -147,7 +149,7 @@ router.route('/teams/createteam')
         }
 
     });
-
+    
     router.route('/friend/removefriend')
     .post(async(req, res) => {
         
@@ -168,6 +170,32 @@ router.route('/teams/createteam')
                     
                     return res.json(team);
                 }
+            }
+
+            return res.json({"Error": "name or new_member can't be null"})
+
+        } catch (error) {
+            return res.json({"Error": error})
+        }
+
+    });
+
+
+    router.route('/friend/listfriend')
+    .get(async(req, res) => {
+        
+        try {
+            if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
+            {
+                token = req.headers.authorization.split(" ")[1]
+                
+                const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+                const {username}= decoded
+                
+                // Verificar se o capitao
+                const team = await friendInteractor.listfriend({ friendListFriendPersistence }, { username });
+                
+                return res.json(team);
             }
 
             return res.json({"Error": "name or new_member can't be null"})
