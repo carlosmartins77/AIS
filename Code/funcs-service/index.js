@@ -18,10 +18,13 @@ app.use(cors());
 
 
 app.use("/", require("./controller/routes/funcroutes"))
-//app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(configswagger))
+
+//rota para docs
+app.use('/apidocjs',express.static('./static/apidoc'));
+
 
 app.listen(PORT, () => {
-    console.log(`Auth-Service at ${PORT}`);
+    console.log(`Func-Service at ${PORT}`);
 });
 
 

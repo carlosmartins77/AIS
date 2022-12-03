@@ -42,3 +42,14 @@ exports.acceptgame = async({ gameAcceptGamePersistence }, {game}) => {
     }
 }
 
+exports.rejectgame = async({ gameRejectGamePersistence }, {game}) => {
+    try {
+        console.log(game)
+        const acceptGame = await gameRejectGamePersistence(game)
+        return acceptGame
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+

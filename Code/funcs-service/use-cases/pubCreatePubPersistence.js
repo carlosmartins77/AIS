@@ -22,6 +22,6 @@ exports.pubCreatePubPersistence = async(username, content) => {
         //});
      } 
      catch (Error) {
-         console.log(Error) // Com base no codigo de erro retornar algo 
+        return ({ status: "403", message: "Permission Denied!" })
      }
  }

@@ -28,6 +28,6 @@ exports.teamCreateTeamPersistence = async(team) => {
         return ({ status: "200", message: "Team Created!"})
     } 
     catch (Error) {
-        console.log(Error) // Com base no codigo de erro retornar algo 
+        return ({ status: "403", message: "Cannot create team"})
     }
 }

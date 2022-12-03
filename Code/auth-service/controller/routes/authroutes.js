@@ -42,6 +42,23 @@ router.route('/registerfile').get((req, res) => {
 });
 
 
+/**
+ * @api {post} /auth/register Registar Utilizador
+ * @apiName Registar Utilizador
+ * @apiGroup Autenticação
+ *
+ * @apiBody {String} username Username.
+ * @apiBody {String} name Nome do utilizador.
+ * @apiBody {String} email Email.
+ * @apiBody {String} password Password.
+ *
+ * @apiSuccessExample {Json} Success-Response
+ *  HTTP/1.1 200 ok 
+ * {
+ *    "status": "200",
+ *    "message" : "User Created successfully"
+ * }
+ */
 router.route('/auth/register')
     .post(async(req, res) => {
         
@@ -58,6 +75,21 @@ router.route('/auth/register')
 
     });
 
+/**
+ * @api {post} /auth/login Login
+ * @apiName Login
+ * @apiGroup Autenticação
+ *
+ * @apiBody {String} username Username.
+ * @apiBody {String} password Password.
+ *
+ * @apiSuccessExample {Json} Success-Response
+ *  HTTP/1.1 200 ok 
+ * {
+ *    "status": "200",
+ *    "data" : "adadsadaxklqaçoqwi1t6q8asxc,acn2ur4279q0'ad-º+2kqlmsfkdsa1 2euhujikapda"
+ * }
+ */ 
 router.route('/auth/login')
     .post(async(req, res) => {
         const { username, password } = req.body;
@@ -73,6 +105,27 @@ router.route('/auth/login')
     });
 
 
+/**
+ * @api {post} /auth/changepassword Mudar Password
+ * @apiName Mudar Password
+ * @apiGroup Autenticação
+ *
+ * @apiBody {String} token Token.
+ * @apiBody {String} password Password.
+ *
+ * @apiSuccessExample {Json} Success-Response
+ *  HTTP/1.1 200 ok 
+ * {
+ *    "status": "200",
+ *    "message": "Password Updated!
+ * }
+ * @apiErrorExample {json} Error-Response:
+ *     HTTP/1.1 403 Forbidden
+ * {
+ *   "status": "404",
+ *   "message" : "Not found!"
+ * }
+ */
 router.route('/auth/changepassword')
     .post(async(req, res) => {
 
