@@ -17,13 +17,14 @@ exports.teamCreateTeamPersistence = async(team) => {
             membros
         })
 
-        //axios.post('http://localhost:7060/createLog', {
-          //  username: username,
-           // log_id: 5
-        //})
-        //.then((game) => {
-        //    console.log(game.status);
-        //});
+        axios.post('http://localhost:7060/createLog', {
+            code : process.env.SECRET_KEY, 
+            username: username,
+            log_id: "Criar Equipa"
+        })
+        .then((game) => {
+            console.log(game.status);
+        });
 
         return ({ status: "200", message: "Team Created!"})
     } 

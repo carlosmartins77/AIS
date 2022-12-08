@@ -25,15 +25,18 @@ exports.userRegisterPersistence = async(user) => {
             password: hashedPassword,
             email
         })
-        //console.log(create_user);
+        
+        console.log(create_user);
 
         axios.post('http://localhost:7060/createLog', {
-                username: username,
-                log_id: 2
-            })
-            .then((user) => {
-                console.log(user.status);
-            });
+            token : process.env.SECRET_KEY, 
+            username: username,
+            log_id: "Registo"
+        })
+        .then((game) => {
+            console.log(game.status);
+        });
+
         return ({ status: "200", message: "User Created"})
     } 
     catch (Error) {

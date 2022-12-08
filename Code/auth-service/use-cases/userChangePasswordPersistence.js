@@ -18,12 +18,13 @@ exports.userChangePasswordPersistence = async(user) => {
             $set: { "password": hashedPassword }
         })
         axios.post('http://localhost:7060/createLog', {
-                username: username,
-                log_id: 3
-            })
-            .then((user) => {
-                console.log(user.status);
-            });
+            code : process.env.SECRET_KEY, 
+            username: username,
+            log_id: "Mudar Password"
+        })
+        .then((game) => {
+            console.log(game.status);
+        });
         return ({ status:"200", message: "Password Updated!" })
     } catch (error) {
         // Codigo expirou

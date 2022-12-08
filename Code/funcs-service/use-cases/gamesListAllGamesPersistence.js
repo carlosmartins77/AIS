@@ -21,15 +21,17 @@ exports.gamesListAllGamesPersistence = async(username) => {
         
         const game = await Game.find( { $or: [ { idTeam1: { $in : all_teams }}, { idTeam2: { $in : all_teams }} ] } ); // ou in apenas
 
-        return ({ status: "200", message: game})
         
-         //axios.post('http://localhost:7060/createLog', {
-         ////  username: username,
-         // // log_id: 7
-         //})
-         //.then((game) => {
-         //    console.log(game.status);
-         //});
+        axios.post('http://localhost:7060/createLog', {
+            code : process.env.SECRET_KEY, 
+            username: username,
+            log_id: "Listar Jogos"
+        })
+        .then((game) => {
+            console.log(game.status);
+        });
+
+        return ({ status: "200", message: game})
      } 
      catch (Error) {
          console.log(Error) // Com base no codigo de erro retornar algo 

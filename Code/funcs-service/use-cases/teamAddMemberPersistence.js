@@ -25,17 +25,19 @@ exports.teamAddMemberPersistence = async(team) => {
             const schedule_game = await Team.updateOne({ name }, {
                 $set: { "membros": new_array }
             })
+            axios.post('http://localhost:7060/createLog', {
+                code : process.env.SECRET_KEY, 
+                username: username,
+                log_id: "Adicionar Membro de Equipa"
+            })
+            .then((game) => {
+                console.log(game.status);
+            });
+
             return ({ status: "200", message: "Member Added Sucessufly!"})
         }
-        else return  ({ status: "403", message: "Permission Denied!"})
+        else  return  ({ status: "403", message: "Permission Denied!"})
  
-         //axios.post('http://localhost:7060/createLog', {
-         ////  username: username,
-         // // log_id: 7
-         //})
-         //.then((game) => {
-         //    console.log(game.status);
-         //});
      } 
      catch (Error) {
          console.log(Error) // Com base no codigo de erro retornar algo 

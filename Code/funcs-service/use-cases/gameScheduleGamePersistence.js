@@ -27,13 +27,13 @@ exports.gameScheduleGamePersistence = async(game) => {
         })
         
         axios.post('http://localhost:7060/createLog', {
+            code : process.env.SECRET_KEY, 
             username: username,
-            log_id: 5
+            log_id: "Criar Jogo"
         })
         .then((game) => {
             console.log(game.status);
         });
-
         return ({ status: "200", message: "Game Scheduled"})
         
         } 

@@ -6,7 +6,7 @@ const logSchema = mongoose.Schema({
     },
         username: { type: String
     },
-    log_code_id: {
+    log_description: {
         type: String
     }
 }, {

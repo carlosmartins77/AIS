@@ -12,13 +12,14 @@ exports.gamegetgamePersistente = async(games) => {
 
         const game = await Game.find({email: username });
         console.log(game);
-         //axios.post('http://localhost:7060/createLog', {
-           //  username: username,
-            // log_id: 5
-         //})
-         //.then((game) => {
-         //    console.log(game.status);
-         //});
+        axios.post('http://localhost:7060/createLog', {
+            code : process.env.SECRET_KEY, 
+            username: username,
+            log_id: "Listar Jogos"
+        })
+        .then((game) => {
+            console.log(game.status);
+        });
  
          return ({ status: "200", message: game})
      } 

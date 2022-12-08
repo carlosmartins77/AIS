@@ -34,12 +34,13 @@ exports.userLoginPersistence = async(user) => {
                 const accessToken = generateAcessToken(users)
 
                 axios.post('http://localhost:7060/createLog', {
-                        username: username,
-                        log_id: 1
-                    })
-                    .then((user) => {
-                        console.log(user.status);
-                    });
+                    code : process.env.SECRET_KEY, 
+                    username: username,
+                    log_id: "Login"
+                })
+                .then((game) => {
+                    console.log(game.status);
+                });
 
                 return ({ token: accessToken })
             } 

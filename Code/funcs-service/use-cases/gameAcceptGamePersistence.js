@@ -19,10 +19,11 @@ exports.gameAcceptGamePersistence = async(game) => {
             $set: { status: "Accepted" }
         })
  
-        //axios.post('http://localhost:7060/createLog', {
-        //    username: username,
-        //    log_id: 8
-        //})
+        axios.post('http://localhost:7060/createLog', {
+            code : process.env.SECRET_KEY, 
+            username: username,
+            log_id: "Aceitar Jogo"
+        })
         .then((game) => {
             console.log(game.status);
         });

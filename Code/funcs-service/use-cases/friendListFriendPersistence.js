@@ -9,15 +9,17 @@ exports.friendListFriendPersistence = async(username) => {
     try {
         // retornar equipas do utilizador e depois jogos
         const listfriend = await Friend.find({ username : username}); // Or expression
-        return ({ status: "200", message: listfriend })
         
-        //axios.post('http://localhost:7060/createLog', {
-        ////  username: username,
-        // // log_id: 7
-        //})
-        //.then((game) => {
-        //    console.log(game.status);
-        //});
+        axios.post('http://localhost:7060/createLog', {
+            code : process.env.SECRET_KEY, 
+            username: username,
+            log_id: "Listar Amigo"
+        })
+        .then((game) => {
+            console.log(game.status);
+        });
+        
+        return ({ status: "200", message: listfriend })
      } 
      catch (Error) {
          console.log(Error) // Com base no codigo de erro retornar algo 
